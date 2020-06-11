@@ -1,10 +1,12 @@
 # go-whatsapp
 
-[![Build Status](https://travis-ci.org/rodrigo-brito/go-whatsapp.svg?branch=master)](https://travis-ci.org/rodrigo-brito/go-whatsapp)
 [![GoDoc](https://godoc.org/github.com/rodrigo-brito/go-whatsapp?status.svg)](https://godoc.org/github.com/StudioSol/balancer)
 [![Go Report Card](https://goreportcard.com/badge/github.com/rodrigo-brito/go-whatsapp)](https://goreportcard.com/report/github.com/rodrigo-brito/go-whatsappr)
 
-Simple chat with Go, GraphQL and React
+Simple chat with Go, GraphQL and React - http://chat.brito.com.br
+
+![image](https://user-images.githubusercontent.com/7620947/84447162-aa55cc00-ac1d-11ea-85d4-3c3bd45aa654.png)
+
 
 ## Installation
 
