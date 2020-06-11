@@ -1,0 +1,35 @@
+type Query {
+    "List messages sent in chat"
+    messages(limit: Int!): [Message!]
+}
+
+type Mutation {
+    "Send a new message in chat"
+    sendMessage(input: MessageInput!): Message!
+}
+
+type Subscription {
+    "Subscribe to new messages"
+    messages: Message!
+}
+
+type Message {
+    "Author of message"
+    author: String!
+
+    "Message content"
+    message: String!
+}
+
+input MessageInput {
+    clientMutationID: String!
+
+    "Author's name"
+    author: String!
+
+    "Message content"
+    message: String!
+}
+
+
+

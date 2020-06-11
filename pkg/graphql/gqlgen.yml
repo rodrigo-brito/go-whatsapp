@@ -1,0 +1,10 @@
+schema:
+  - schema.graphql
+
+exec:
+  filename: schema_gen.go
+  package: graphql
+
+model:
+  filename: model/models_gen.go
+  package: model
