@@ -8,9 +8,10 @@
 Simple chat with Go, GraphQL and React
 
 ## Installation
-1 - Create a new Firebase project
-2 - Copy project credentials to `credentials.json` in project root
-3 - `make run`
+- Create a new Firebase project
+- Copy project credentials to `credentials.json` in project root
+- `make run`
+
 
 
 ## License
