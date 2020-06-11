@@ -1,7 +1,7 @@
 # go-whatsapp
 
 [![GoDoc](https://godoc.org/github.com/rodrigo-brito/go-whatsapp?status.svg)](https://godoc.org/github.com/StudioSol/balancer)
-[![Go Report Card](https://goreportcard.com/badge/github.com/rodrigo-brito/go-whatsapp)](https://goreportcard.com/report/github.com/rodrigo-brito/go-whatsappr)
+[![Go Report Card](https://goreportcard.com/badge/github.com/rodrigo-brito/go-whatsapp)](https://goreportcard.com/report/github.com/rodrigo-brito/go-whatsapp)
 
 Simple chat with Go, GraphQL and React - http://chat.brito.com.br
 
