@@ -14,15 +14,24 @@ type Subscription {
 }
 
 type Message {
+    "Author's UUID"
+    authorID: String!
+
     "Author of message"
     author: String!
 
     "Message content"
-    message: String!
+    content: String!
+
+    "Date of creation"
+    createdAt: Time!
 }
 
+scalar Time
+
 input MessageInput {
-    clientMutationID: String!
+    "Author's UUID"
+    authorID: String!
 
     "Author's name"
     author: String!

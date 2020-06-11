@@ -2,17 +2,24 @@ package main
 
 import (
 	"context"
-	"go-zap/pkg/lib/firestore"
-	"go-zap/pkg/service"
 	"net/http"
-
-	"github.com/cskr/pubsub"
+	"time"
 
 	"go-zap/pkg/graphql"
 	"go-zap/pkg/graphql/resolver"
+	"go-zap/pkg/lib/firestore"
+	"go-zap/pkg/service"
 
 	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/handler/extension"
+	"github.com/99designs/gqlgen/graphql/handler/lru"
+	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/cskr/pubsub"
+	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/cors"
+	"github.com/gorilla/websocket"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -24,22 +31,38 @@ func main() {
 		log.Fatal(err)
 	}
 
-	server := http.NewServeMux()
 	fileServer := http.FileServer(http.Dir("./website/build"))
 	playgroundHandler := playground.Handler("GraphQL", "/graphql")
-	graphQLHandler := handler.NewDefaultServer(graphql.NewExecutableSchema(graphql.Config{
+	graphQLHandler := handler.New(graphql.NewExecutableSchema(graphql.Config{
 		Resolvers: &resolver.GraphQL{
 			MessageService: service.NewMessage(client, pubSub),
 			PubSub:         pubSub,
 		},
 	}))
 
-	server.Handle("/", fileServer)
-	server.Handle("/graphql", graphQLHandler)
-	server.Handle("/graphql/explorer", playgroundHandler)
+	graphQLHandler.SetQueryCache(lru.New(100))
+	graphQLHandler.Use(extension.AutomaticPersistedQuery{Cache: lru.New(100)})
+	graphQLHandler.AddTransport(transport.Options{})
+	graphQLHandler.AddTransport(transport.GET{})
+	graphQLHandler.AddTransport(transport.POST{})
+	graphQLHandler.AddTransport(transport.Websocket{
+		KeepAlivePingInterval: 10 * time.Second,
+		Upgrader: websocket.Upgrader{
+			CheckOrigin: func(r *http.Request) bool {
+				return true
+			},
+		},
+	})
+
+	router := chi.NewRouter()
+	router.Use(middleware.Logger)
+	router.Use(cors.AllowAll().Handler)
+	router.Handle("/*", fileServer)
+	router.Handle("/graphql", graphQLHandler)
+	router.Handle("/graphql/explorer", playgroundHandler)
 
 	log.Info("Listen http://localhost:8080")
-	if err := http.ListenAndServe(":8080", server); err != nil {
+	if err := http.ListenAndServe(":8080", router); err != nil {
 		log.Fatal(err)
 	}
 }

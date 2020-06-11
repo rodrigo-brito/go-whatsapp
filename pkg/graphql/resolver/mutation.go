@@ -2,6 +2,7 @@ package resolver
 
 import (
 	"context"
+	"time"
 
 	"github.com/vektah/gqlparser/v2/gqlerror"
 
@@ -17,8 +18,10 @@ type Mutation struct {
 
 func (m Mutation) SendMessage(ctx context.Context, input model.MessageInput) (*model.Message, error) {
 	message := model.Message{
-		Author:  input.Author,
-		Message: input.Message,
+		AuthorID:  input.AuthorID,
+		Author:    input.Author,
+		Content:   input.Message,
+		CreatedAt: time.Now(),
 	}
 
 	err := m.MessageService.Save(ctx, message)

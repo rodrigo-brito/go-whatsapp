@@ -4,7 +4,9 @@ import (
 	"context"
 
 	"go-zap/pkg/graphql/model"
-	"go-zap/pkg/lib/firestore"
+	storage "go-zap/pkg/lib/firestore"
+
+	"cloud.google.com/go/firestore"
 )
 
 const collectionName = "messages"
@@ -15,10 +17,10 @@ type Message interface {
 }
 
 type message struct {
-	client firestore.Client
+	client storage.Client
 }
 
-func NewMessage(client firestore.Client) Message {
+func NewMessage(client storage.Client) Message {
 	return &message{
 		client: client,
 	}
@@ -35,6 +37,7 @@ func (m message) Fetch(ctx context.Context, limit int) ([]*model.Message, error)
 	results, err := m.client.
 		Collection(collectionName).
 		Limit(limit).
+		OrderBy("CreatedAt", firestore.Asc).
 		Documents(ctx).
 		GetAll()
 	if err != nil {

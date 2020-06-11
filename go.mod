@@ -8,6 +8,9 @@ require (
 	firebase.google.com/go v3.13.0+incompatible
 	github.com/99designs/gqlgen v0.11.3
 	github.com/cskr/pubsub v1.0.2
+	github.com/go-chi/chi v4.1.2+incompatible // indirect
+	github.com/go-chi/cors v1.1.1 // indirect
+	github.com/rs/cors v1.7.0 // indirect
 	github.com/sirupsen/logrus v1.6.0
 	github.com/vektah/gqlparser/v2 v2.0.1
 	google.golang.org/api v0.26.0
