@@ -1,6 +1,6 @@
 type Query {
     "List messages sent in chat"
-    messages(limit: Int!): [Message!]
+    messages(limit: Int!): [Message!]!
 }
 
 type Mutation {

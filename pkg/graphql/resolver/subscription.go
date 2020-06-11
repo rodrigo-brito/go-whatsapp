@@ -4,13 +4,30 @@ import (
 	"context"
 
 	"go-zap/pkg/graphql/model"
-	"go-zap/pkg/service"
+
+	"github.com/cskr/pubsub"
 )
 
+const topicName = "messages"
+
 type Subscription struct {
-	MessageService service.Message
+	PubSub *pubsub.PubSub
 }
 
 func (s Subscription) Messages(ctx context.Context) (<-chan *model.Message, error) {
-	panic("implement me")
+	subscription := s.PubSub.Sub(topicName)
+	messages := make(chan *model.Message)
+
+	go func() {
+		<-ctx.Done()
+		s.PubSub.Unsub(subscription, topicName)
+	}()
+
+	go func() {
+		for message := range subscription {
+			messages <- message.(*model.Message)
+		}
+	}()
+
+	return messages, nil
 }

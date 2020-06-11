@@ -6,6 +6,8 @@ import (
 	"go-zap/pkg/service"
 	"net/http"
 
+	"github.com/cskr/pubsub"
+
 	"go-zap/pkg/graphql"
 	"go-zap/pkg/graphql/resolver"
 
@@ -16,6 +18,7 @@ import (
 
 func main() {
 	ctx := context.Background()
+	pubSub := pubsub.New(0)
 	client, err := firestore.NewClient(ctx, "go-whatsapp-2166d")
 	if err != nil {
 		log.Fatal(err)
@@ -26,7 +29,8 @@ func main() {
 	playgroundHandler := playground.Handler("GraphQL", "/graphql")
 	graphQLHandler := handler.NewDefaultServer(graphql.NewExecutableSchema(graphql.Config{
 		Resolvers: &resolver.GraphQL{
-			MessageService: service.NewMessage(client),
+			MessageService: service.NewMessage(client, pubSub),
+			PubSub:         pubSub,
 		},
 	}))
 

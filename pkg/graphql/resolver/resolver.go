@@ -5,10 +5,13 @@ package resolver
 import (
 	"go-zap/pkg/graphql"
 	"go-zap/pkg/service"
+
+	"github.com/cskr/pubsub"
 )
 
 type GraphQL struct {
 	MessageService service.Message
+	PubSub         *pubsub.PubSub
 }
 
 func (g GraphQL) Mutation() graphql.MutationResolver {
@@ -25,6 +28,6 @@ func (g GraphQL) Query() graphql.QueryResolver {
 
 func (g GraphQL) Subscription() graphql.SubscriptionResolver {
 	return &Subscription{
-		MessageService: g.MessageService,
+		PubSub: g.PubSub,
 	}
 }

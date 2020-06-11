@@ -11,7 +11,7 @@ const collectionName = "messages"
 
 type Message interface {
 	Save(ctx context.Context, message model.Message) error
-	Fetch(ctx context.Context, limit int) ([]model.Message, error)
+	Fetch(ctx context.Context, limit int) ([]*model.Message, error)
 }
 
 type message struct {
@@ -29,15 +29,20 @@ func (m message) Save(ctx context.Context, message model.Message) error {
 	return err
 }
 
-func (m message) Fetch(ctx context.Context, limit int) ([]model.Message, error) {
-	messages := make([]model.Message, 0)
-	results, err := m.client.Collection(collectionName).Limit(limit).Documents(ctx).GetAll()
+func (m message) Fetch(ctx context.Context, limit int) ([]*model.Message, error) {
+	messages := make([]*model.Message, 0)
+
+	results, err := m.client.
+		Collection(collectionName).
+		Limit(limit).
+		Documents(ctx).
+		GetAll()
 	if err != nil {
 		return nil, err
 	}
 
 	for _, result := range results {
-		var message model.Message
+		message := new(model.Message)
 		err = result.DataTo(&message)
 		if err != nil {
 			return nil, err
