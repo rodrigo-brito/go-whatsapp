@@ -79,7 +79,11 @@ function Chat() {
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    // GraphQL mutation to send message
+    if (!message) {
+      return;
+    }
+
+    // send a new message when for submit
     sendMessage({
       variables: {
         input: {
@@ -146,7 +150,7 @@ function Chat() {
                     <img src={logo} alt="Meetup Go BH" />
                   </div>
                   <div className="name">
-                    <span>Meetup Go BH</span>
+                    <span>Meetup Go</span>
                     <span className="status">online</span>
                   </div>
                   <div className="actions more">

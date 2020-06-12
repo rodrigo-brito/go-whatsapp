@@ -10,3 +10,6 @@ run: dev-dependencies
 
 gqlgen:
 	go generate ./pkg/graphql/...
+
+build-docker:
+	docker build -t rodrigobrito/go-whatsapp .
