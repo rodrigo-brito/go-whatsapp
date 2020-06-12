@@ -19,7 +19,7 @@ Simple chat with Go, GraphQL and React - http://chat.brito.com.br
   - `make run` - Start watcher for develpment mode
   - `make gqlgen` - Update and generate a fresh version of GraphQL code
 
-## License
+## Licenses
 
-Released under [MIT License](LICENSE)
-Layout by [Zeno Rocha](https://github.com/zenorocha). Released with MIT license in [Codepen](https://codepen.io/zenorocha/pen/eZxYOK)
+- Released under [MIT License](LICENSE)
+- Layout by [Zeno Rocha](https://github.com/zenorocha). Released with MIT license in [Codepen](https://codepen.io/zenorocha/pen/eZxYOK)
