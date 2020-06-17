@@ -19,13 +19,15 @@ func (s Subscription) Messages(ctx context.Context) (<-chan *model.Message, erro
 	messages := make(chan *model.Message)
 
 	go func() {
-		<-ctx.Done()
-		s.PubSub.Unsub(subscription, topicName)
-	}()
-
-	go func() {
-		for message := range subscription {
-			messages <- message.(*model.Message)
+		for {
+			select {
+			case <-ctx.Done():
+				s.PubSub.Unsub(subscription, topicName)
+			case message := <-subscription:
+				if message != nil {
+					messages <- message.(*model.Message)
+				}
+			}
 		}
 	}()
 
