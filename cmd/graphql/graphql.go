@@ -10,6 +10,7 @@ import (
 	"go-zap/pkg/lib/firestore"
 	"go-zap/pkg/service"
 
+	gqlgen "github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/handler/extension"
 	"github.com/99designs/gqlgen/graphql/handler/lru"
@@ -45,6 +46,11 @@ func main() {
 	graphQLHandler.AddTransport(transport.Options{})
 	graphQLHandler.AddTransport(transport.GET{})
 	graphQLHandler.AddTransport(transport.POST{})
+	graphQLHandler.AroundOperations(func(ctx context.Context, next gqlgen.OperationHandler) gqlgen.ResponseHandler {
+		gqlgen.GetOperationContext(ctx).DisableIntrospection = false
+		return next(ctx)
+	})
+
 	graphQLHandler.AddTransport(transport.Websocket{
 		KeepAlivePingInterval: 10 * time.Second,
 		Upgrader: websocket.Upgrader{
