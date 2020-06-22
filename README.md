@@ -5,6 +5,10 @@
 
 Simple chat with Go, GraphQL and React
 
+Presentation (pt-BR): https://slides.com/rodrigo73/chat-graphql-go-react
+Video: https://youtu.be/BV_aDPAaEpI?t=297
+Demo: http://chat.brito.com.br
+
 ![image](https://user-images.githubusercontent.com/7620947/84447162-aa55cc00-ac1d-11ea-85d4-3c3bd45aa654.png)
 
 ## Project setup
